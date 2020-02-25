@@ -297,7 +297,7 @@ def import_annotations(task_id, dataset_id, coco_json):
         ).count()
 
         image_model.update(
-            set__annotated=True,
+            set__annotated=image_model.annotated,
             set__category_ids=list(set(all_category_ids)),
             set__num_annotations=num_annotations
         )
