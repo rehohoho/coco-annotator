@@ -95,6 +95,7 @@ class AnnotatorData(Resource):
                     total_time += session.get('milliseconds')
                     sessions.append(model)
 
+                keypoints = annotation.get('keypoints', [])
                 if keypoints:
                     counted = True
 
