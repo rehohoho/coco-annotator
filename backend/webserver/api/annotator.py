@@ -167,8 +167,8 @@ class AnnotatorId(Resource):
 
         # Get next and previous image
         images = ImageModel.objects(dataset_id=dataset.id, deleted=False)
-        pre = images.filter(file_name__lt=image.file_name).order_by('-file_name').first()
-        nex = images.filter(file_name__gt=image.file_name).order_by('file_name').first()
+        pre = images.filter(file_name__lt=image.file_name,annotated=False).order_by('-file_name').first()
+        nex = images.filter(file_name__gt=image.file_name,annotated=False).order_by('file_name').first()
 
         preferences = {}
         if not Config.LOGIN_DISABLED:
