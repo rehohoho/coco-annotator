@@ -29,7 +29,8 @@ class DatasetModel(DynamicDocument):
     def save(self, *args, **kwargs):
 
         directory = os.path.join(Config.DATASET_DIRECTORY, self.name + '/')
-        os.makedirs(directory, mode=0o777, exist_ok=True)
+        os.makedirs(directory, exist_ok=True)
+        os.chmod(directory, 0o777)
 
         self.directory = directory
         self.owner = current_user.username if current_user else 'system'
