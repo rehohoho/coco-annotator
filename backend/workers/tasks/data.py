@@ -168,14 +168,16 @@ def import_annotations(task_id, dataset_id, coco_json):
 
         category_name = category.get('name')
         category_id = category.get('id')
+        category_color = category.get('color')
         category_model = categories.filter(name__iexact=category_name).first()
 
         if category_model is None:
             task.warning(
-                f"{category_name} category not found (creating a new one)")
-
+                f"{category_name} category not found (creating a new one). {category_name}: {category_color}")
+            
             new_category = CategoryModel(
                 name=category_name,
+                color=category_color,
                 keypoint_edges=category.get('skeleton', []),
                 keypoint_labels=category.get('keypoints', [])
             )
@@ -300,7 +302,7 @@ def import_annotations(task_id, dataset_id, coco_json):
         ).count()
 
         image_model.update(
-            set__annotated=True,
+            set__annotated=image_model.annotated,
             set__category_ids=list(set(all_category_ids)),
             set__num_annotations=num_annotations
         )

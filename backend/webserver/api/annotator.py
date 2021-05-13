@@ -51,7 +51,7 @@ class AnnotatorData(Resource):
         annotated = False
         num_annotations = 0
         # Iterate every category passed in the data
-        for category in data.get('categories', []):
+        for category in data.get('categories', []):  #19 categories
             category_id = category.get('id')
 
             # Find corresponding category object in the database
@@ -168,8 +168,8 @@ class AnnotatorId(Resource):
 
         # Get next and previous image
         images = ImageModel.objects(dataset_id=dataset.id, deleted=False)
-        pre = images.filter(file_name__lt=image.file_name).order_by('-file_name').first()
-        nex = images.filter(file_name__gt=image.file_name).order_by('file_name').first()
+        pre = images.filter(file_name__lt=image.file_name,annotated=False).order_by('-file_name').first()
+        nex = images.filter(file_name__gt=image.file_name,annotated=False).order_by('file_name').first()
 
         preferences = {}
         if not Config.LOGIN_DISABLED:
